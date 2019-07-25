@@ -19,10 +19,7 @@ namespace ECommerce.Controllers
                 List<Address> addresses = eCommerceContext.Addresses.Include(a => a.User).ToList();
             }
             
-            foreach (var item in users)
-            {
-
-            }
+           
                 return View();
         }
 

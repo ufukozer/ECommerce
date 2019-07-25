@@ -18,6 +18,11 @@ namespace ECommerce.Controllers
                 List<User> users = eCommerceContext.Users.Include(a => a.Addresses).ToList();
                 List<Address> addresses = eCommerceContext.Addresses.Include(a => a.User).ToList();
             }
+            
+            foreach (var item in users)
+            {
+
+            }
                 return View();
         }
 

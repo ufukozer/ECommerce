@@ -23,8 +23,38 @@ namespace ECommerce
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //DATABASE ŞEMASI UYGULANIRKEN KULLANILACAK KURAL SETLERİ
+            modelBuilder.Entity<Category>().HasData(new Category()
+            {
+                Id = 1,
+                Name = "Elektronik",
+                Description = "Ev elektriğine dair herşey."
+            });
+            modelBuilder.Entity<Category>().HasData(new Category()
+            {
+                Id = 2,
+                Name = "Beyaz Eşya",
+                Description = "Mutfak elektroniği."
+            });
+            modelBuilder.Entity<Category>().HasData(new Category()
+            {
+                Id = 3,
+                Name = "Tekstil",
+                Description = "Gardropunuzu biz dolduruyoruz."
+            });
+            modelBuilder.Entity<State>().HasData(new State()
+            {
+                Id = 1,
+                Name = "Aktif"
+            });
+            modelBuilder.Entity<State>().HasData(new State()
+            {
+                Id = 2,
+                Name = "Pasif"
+            });
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<State> States { get; set; }
     }
 }

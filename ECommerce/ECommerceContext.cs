@@ -41,12 +41,12 @@ namespace ECommerce
                 Name = "Tekstil",
                 Description = "Gardropunuzu biz dolduruyoruz."
             });
-            modelBuilder.Entity<State>().HasData(new State()
+            modelBuilder.Entity<Models.State>().HasData(new Models.State()
             {
                 Id = 1,
                 Name = "Aktif"
             });
-            modelBuilder.Entity<State>().HasData(new State()
+            modelBuilder.Entity<Models.State>().HasData(new Models.State()
             {
                 Id = 2,
                 Name = "Pasif"
@@ -55,6 +55,7 @@ namespace ECommerce
         public DbSet<User> Users { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<State> States { get; set; }
+        public DbSet<Models.State> States { get; set; }
+        public DbSet<Product> Products { get; set; }
     }
 }

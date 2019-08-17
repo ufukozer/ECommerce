@@ -1,0 +1,9 @@
+﻿@model Product;
+@{
+    await Html.RenderPartialAsync("_Partial_Categories");
+}
+<strong>Ürün Adı: </strong>@Model.Name
+<br />
+<strong>Açıklama: </strong>@Model.Description
+<br />
+<input type="button" value="Güncellemek İçin Tıkla" onclick="" />

@@ -12,18 +12,19 @@ namespace ECommerce.Controllers
         public IActionResult Handle()
         {
             string json = HttpContext.Request.Form["JSON"].ToString();
-            DTO.ProductSaveDto categorySave = Newtonsoft.Json.JsonConvert.DeserializeObject<DTO.ProductSaveDto>(json);
+            DTO.ProductSaveDto productSave = Newtonsoft.Json.JsonConvert.DeserializeObject<DTO.ProductSaveDto>(json);
             
             using (ECommerceContext eCommerceContext = new ECommerceContext())
             {
                 eCommerceContext.Products.Add(new Models.Product()
                 {
-                    Name = categorySave.productName,
+                    Name = productSave.ProductName,
                     Description = "boş",
-                    State = eCommerceContext.States.Single(a => a.Id == (int)Enums.State.Active),
-                   // Category = "???",
+                    StateId = (int) Enums.State.Active,
+                    CategoryId = productSave.CategoryId,
                     CreateDate = DateTime.UtcNow,
                 });
+                eCommerceContext.SaveChanges();
             }
             return View();
         }

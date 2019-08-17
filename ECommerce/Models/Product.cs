@@ -18,6 +18,9 @@ namespace ECommerce.Models
         public DateTime CreateDate { get; set; }
         [Required]
         public State State { get; set; }
+        public int StateId { get; set; }
+        [Required]
         public Category Category { get; set; }
+        public int CategoryId { get; set; }
     }
 }

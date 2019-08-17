@@ -5,5 +5,11 @@
 <p>
     <a href="@Url.Action("Index", "Home")">Anasayfa</a>
 </p>
-<h2>Bize Ulaşın!!!</h2>
+<h2>Bize Ulaşın!</h2>
+<form>
+    Ad Soyad: <input type="text" id="NameSurname" /><br />
+    Mail: <input type="text" id="EMail" /><br />
+    Mesajınız: <input type="text" id="Message" /><br />
+    <input type="button" value="Gönder" onclick="ECommerce.Page.Contact.Submit();" />
+</form>
 

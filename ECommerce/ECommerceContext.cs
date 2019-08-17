@@ -57,5 +57,6 @@ namespace ECommerce
         public DbSet<Category> Categories { get; set; }
         public DbSet<Models.State> States { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
     }
 }

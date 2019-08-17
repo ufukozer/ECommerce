@@ -23,6 +23,14 @@ namespace ECommerce.Controllers
             {
                 ajaxResponse.Dynamic = AjaxMethod.ProductsByCategoryId(ajaxRequest.Json);
             }
+            else if (ajaxRequest.Method == "RemoveProduct")
+            {
+                ajaxResponse.Dynamic = AjaxMethod.RemoveProduct(ajaxRequest.Json);
+            }
+            else if (ajaxRequest.Method == "ContactSubmit")
+            {
+                AjaxMethod.ContactSubmit(ajaxRequest.Json);
+            }
             
             return new JsonResult(ajaxResponse);
         }
@@ -54,6 +62,36 @@ namespace ECommerce.Controllers
                 result = eCommerceContext.Products.Where(a => a.CategoryId == productsByCategoryId.CategoryId).ToList();
             }
             return result;
+        }
+        public bool RemoveProduct(string json)
+        {
+            bool result = false;
+            DTO.ProductRemoveDto productRemove = Newtonsoft.Json.JsonConvert.DeserializeObject<DTO.ProductRemoveDto>(json);
+            using (ECommerceContext eCommerceContext = new ECommerceContext())
+            {
+                Models.Product product = eCommerceContext.Products.SingleOrDefault(a => a.Id == productRemove.ProductId);
+                if (product != null)
+                {
+                    eCommerceContext.Products.Remove(product);
+                    eCommerceContext.SaveChanges();
+                    result = true;
+                }
+            }
+            return result;
+        }
+        public void ContactSubmit(string json)
+        {
+            DTO.ContactSubmitDto contactSubmit = Newtonsoft.Json.JsonConvert.DeserializeObject<DTO.ContactSubmitDto>(json);
+            using (ECommerceContext eCommerceContext = new ECommerceContext())
+            {
+                eCommerceContext.Contacts.Add(new Models.Contact()
+                {
+                    NameSurname = contactSubmit.NameSurname,
+                    EMail = contactSubmit.EMail,
+                    Message = contactSubmit.Message,
+                });
+                eCommerceContext.SaveChanges();
+            }
         }
     }
 }

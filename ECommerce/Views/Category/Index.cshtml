@@ -10,9 +10,16 @@
 <p>@Model.Description</p>
 
 <form>
-    <input type="number" id="CategoryId" />
+    <input type="hidden" id="CategoryId" value="@Model.Id"/>
     <input type="text" id="ProductName"/>
     <input type="text" id="ProductDescription" />
     <input type="button" value="Kaydet" onclick="ECommerce.Page.Category.Save();"/>
 </form>
+<div id="Holder-Products">
 
+</div>
+<script>
+    $(document).ready(function () {
+        ECommerce.Page.Category.List();
+    });
+</script>

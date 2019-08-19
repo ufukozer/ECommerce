@@ -61,7 +61,14 @@
 
         },
         Product: {
-
+            Update: function () {
+                var jDto = new Object();
+                jDto.productId = $("#ProductId").val();
+                jDto.productName = $("#ProductName").val();
+                jDto.productDescription = $("#ProductDesc").val();
+                ECommerce.Helper.Ajax("UpdateProduct", jDto);
+                alert("Güncelleme Başarılı!");  
+            }
         },
         Contact: {
             Submit: function () {

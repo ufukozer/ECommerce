@@ -19,9 +19,14 @@ namespace ECommerce.Controllers
             return View(product);
         }
         [Route("urun/{id}/guncelle")]
-        public void Update(string id)
+        public IActionResult Update(int id)
         {
-
+            Models.Product product;
+            using (ECommerceContext eCommerceContext = new ECommerceContext())
+            {
+                product = eCommerceContext.Products.SingleOrDefault(a => a.Id == id);
+            }
+            return View(product);
         }
     }
 }

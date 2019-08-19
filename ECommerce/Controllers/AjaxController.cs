@@ -31,6 +31,10 @@ namespace ECommerce.Controllers
             {
                 AjaxMethod.ContactSubmit(ajaxRequest.Json);
             }
+            else if (ajaxRequest.Method == "UpdateProduct")
+            {
+                AjaxMethod.ProductUpdate(ajaxRequest.Json);
+            }
             
             return new JsonResult(ajaxResponse);
         }
@@ -89,6 +93,20 @@ namespace ECommerce.Controllers
                     NameSurname = contactSubmit.NameSurname,
                     EMail = contactSubmit.EMail,
                     Message = contactSubmit.Message,
+                });
+                eCommerceContext.SaveChanges();
+            }
+        }
+        public void ProductUpdate(string json)
+        {
+            DTO.ProductUpdateDto productUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<DTO.ProductUpdateDto>(json);
+            using (ECommerceContext eCommerceContext = new ECommerceContext())
+            {
+                Models.Product product = eCommerceContext.Products.Single(a => a.Id == productUpdate.ProductId);
+                eCommerceContext.Products.Update(new Models.Product()
+                {
+                    Name = productUpdate.ProductName,
+                    Description = productUpdate.ProductDescription,
                 });
                 eCommerceContext.SaveChanges();
             }

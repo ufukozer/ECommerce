@@ -2,8 +2,9 @@
 @{
     await Html.RenderPartialAsync("_Partial_Categories");
 }
-<strong>Ürün Adı: </strong><input type="text" value="@Model.Name" />
+<input type="hidden" id="ProdcutId" value="@Model.Id" />
+<strong>Ürün Adı: </strong><input id="ProductName" type="text" value="@Model.Name" />
 <br />
-<strong>Açıklama: </strong><input type="text" value="@Model.Description" />
+<strong>Açıklama: </strong><input id="ProductDesc" type="text" value="@Model.Description" />
 <br />
-<input type="button" value="Güncelle" />
+<input type="button" value="Güncelle" onclick="ECommerce.Page.Product.Update()" />

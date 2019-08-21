@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using PagedList;
 
 namespace ECommerce.Controllers
 {
@@ -57,15 +58,19 @@ namespace ECommerce.Controllers
                 eCommerceContext.SaveChanges();
             }
         }
+        private List<Models.Product> pagedList;
         public List<Models.Product> ProductsByCategoryId(string json)
         {
+
             List<Models.Product> result = new List<Models.Product>();
             DTO.ProductsByCategoryId productsByCategoryId = Newtonsoft.Json.JsonConvert.DeserializeObject<DTO.ProductsByCategoryId>(json);
             using (ECommerceContext eCommerceContext = new ECommerceContext())
             {
                 result = eCommerceContext.Products.Where(a => a.CategoryId == productsByCategoryId.CategoryId).ToList();
+                PagedList<Models.Product> pagedList = new PagedList<Models.Product>(result, 1, 2);
             }
-            return result;
+
+            return pagedList;
         }
         public bool RemoveProduct(string json)
         {
@@ -102,12 +107,12 @@ namespace ECommerce.Controllers
             DTO.ProductUpdateDto productUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<DTO.ProductUpdateDto>(json);
             using (ECommerceContext eCommerceContext = new ECommerceContext())
             {
-                Models.Product product = eCommerceContext.Products.Single(a => a.Id == productUpdate.ProductId);
-                eCommerceContext.Products.Update(new Models.Product()
-                {
-                    Name = productUpdate.ProductName,
-                    Description = productUpdate.ProductDescription,
-                });
+                Models.Product product = eCommerceContext.Products.SingleOrDefault(a => a.Id == productUpdate.ProductId);
+
+                product.Description = productUpdate.ProductDescription;
+                product.Name = productUpdate.ProductName;
+
+                eCommerceContext.Products.Update(product);
                 eCommerceContext.SaveChanges();
             }
         }

@@ -4,6 +4,8 @@ using ECommerce.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using PagedList;
+using PagedList.Mvc;
 
 
 namespace ECommerce.Controllers
@@ -22,5 +24,6 @@ namespace ECommerce.Controllers
             ViewData["Title"] = category.Name;
             return View(category);
         }
+
     }
 }

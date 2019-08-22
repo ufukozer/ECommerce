@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PagedList;
+using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.Controllers
 {
@@ -46,18 +47,16 @@ namespace ECommerce.Controllers
         public void SaveProduct(string json)
         {
             DTO.ProductSaveDto productSave = Newtonsoft.Json.JsonConvert.DeserializeObject<DTO.ProductSaveDto>(json);
-            using (ECommerceContext eCommerceContext = new ECommerceContext())
+            Models.Product product = new Models.Product()
             {
-                eCommerceContext.Products.Add(new Models.Product()
-                {
-                    Name = productSave.ProductName,
-                    Description = productSave.ProductDescription,
-                    StateId = (int)Enums.State.Active,
-                    CategoryId = productSave.CategoryId,
-                    CreateDate = DateTime.UtcNow,
-                });
-                eCommerceContext.SaveChanges();
-            }
+                Name = productSave.ProductName,
+                Description = productSave.ProductDescription,
+                StateId = (int)Enums.State.Active,
+                CategoryId = productSave.CategoryId,
+                CreateDate = DateTime.UtcNow
+            }; 
+            productAdapter.Insert<Models.Product>(product);
+            
         }
         private List<Models.Product> pagedList;
         public List<Models.Product> ProductsByCategoryId(string json)
@@ -65,43 +64,42 @@ namespace ECommerce.Controllers
 
             List<Models.Product> result = new List<Models.Product>();
             DTO.ProductsByCategoryId productsByCategoryId = Newtonsoft.Json.JsonConvert.DeserializeObject<DTO.ProductsByCategoryId>(json);
-            using (ECommerceContext eCommerceContext = new ECommerceContext())
-            {
-                result = eCommerceContext.Products.Where(a => a.CategoryId == productsByCategoryId.CategoryId).ToList();
-                PagedList<Models.Product> pagedList = new PagedList<Models.Product>(result, 1, 2);
-            }
+            IQueryable<Models.Product> products = productAdapter.Get<Models.Product>();
 
-            return pagedList;
+            result = products.Include(a => a.Category).Where(a => a.CategoryId == productsByCategoryId.CategoryId).ToList();
+
+            //using (ECommerceContext eCommerceContext = new ECommerceContext())
+            //{
+            //    result = eCommerceContext.Products.Where(a => a.CategoryId == productsByCategoryId.CategoryId).ToList();
+            //    PagedList<Models.Product> pagedList = new PagedList<Models.Product>(result, 1, 2);
+            //}
+
+            return result;
         }
         public bool RemoveProduct(string json)
         {
             bool result = false;
             DTO.ProductRemoveDto productRemove = Newtonsoft.Json.JsonConvert.DeserializeObject<DTO.ProductRemoveDto>(json);
-            using (ECommerceContext eCommerceContext = new ECommerceContext())
-            {
-                Models.Product product = eCommerceContext.Products.SingleOrDefault(a => a.Id == productRemove.ProductId);
-                if (product != null)
-                {
-                    eCommerceContext.Products.Remove(product);
-                    eCommerceContext.SaveChanges();
-                    result = true;
-                }
-            }
+            productAdapter.Delete<Models.Product>(productRemove.ProductId);
+
             return result;
         }
+        private static readonly Adapter.ContactAdapter contactAdapter = new Adapter.ContactAdapter();
         public void ContactSubmit(string json)
         {
             DTO.ContactSubmitDto contactSubmit = Newtonsoft.Json.JsonConvert.DeserializeObject<DTO.ContactSubmitDto>(json);
-            using (ECommerceContext eCommerceContext = new ECommerceContext())
-            {
-                eCommerceContext.Contacts.Add(new Models.Contact()
-                {
-                    NameSurname = contactSubmit.NameSurname,
-                    EMail = contactSubmit.EMail,
-                    Message = contactSubmit.Message,
-                });
-                eCommerceContext.SaveChanges();
-            }
+            IQueryable<Models.Contact> contacts = contactAdapter.Get<Models.Contact>();
+
+            //using (ECommerceContext eCommerceContext = new ECommerceContext())
+            //{
+            //    eCommerceContext.Contacts.Add(new Models.Contact()
+            //    {
+            //        NameSurname = contactSubmit.NameSurname,
+            //        EMail = contactSubmit.EMail,
+            //        Message = contactSubmit.Message,
+            //    });
+            //    eCommerceContext.SaveChanges();
+            //}
         }
         public void ProductUpdate(string json)
         {

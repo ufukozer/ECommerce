@@ -28,6 +28,16 @@ namespace ECommerce.Adapter
             return product;
         }
 
+        public IQueryable<T> Get<T>() where T : class
+        {
+            IQueryable<T> models; 
+            using(ECommerceContext eCommerceContext = new ECommerceContext())
+            {
+                models = eCommerceContext.Set<T>();
+            }
+            return models;
+        }
+
         public T Insert<T>(T model) where T : class
         {
             using (ECommerceContext eCommerceContext = new ECommerceContext())

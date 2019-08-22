@@ -42,6 +42,7 @@ namespace ECommerce.Controllers
     }
     public class AjaxMethod
     {
+        private static readonly Adapter.ProductAdapter productAdapter = new Adapter.ProductAdapter();
         public void SaveProduct(string json)
         {
             DTO.ProductSaveDto productSave = Newtonsoft.Json.JsonConvert.DeserializeObject<DTO.ProductSaveDto>(json);

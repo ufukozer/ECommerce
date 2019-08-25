@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ECommerce.Migrations
 {
-    [DbContext(typeof(ECommerceContext))]
+    [DbContext(typeof(Data.ECommerceContext))]
     [Migration("20190817113009_Contact")]
     partial class Contact
     {

@@ -7,7 +7,7 @@ using System;
 
 namespace ECommerce.Migrations
 {
-    [DbContext(typeof(ECommerceContext))]
+    [DbContext(typeof(Data.ECommerceContext))]
     [Migration("20190727121856_Product")]
     partial class Product
     {

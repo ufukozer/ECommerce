@@ -1,8 +1,8 @@
-﻿using ECommerce.Models;
+﻿using ECommerce.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace ECommerce
+namespace ECommerce.Data
 {
     public class ECommerceContext : DbContext
     {
@@ -41,12 +41,12 @@ namespace ECommerce
                 Name = "Tekstil",
                 Description = "Gardropunuzu biz dolduruyoruz."
             });
-            modelBuilder.Entity<Models.State>().HasData(new Models.State()
+            modelBuilder.Entity<Data.Models.State>().HasData(new Data.Models.State()
             {
                 Id = 1,
                 Name = "Aktif"
             });
-            modelBuilder.Entity<Models.State>().HasData(new Models.State()
+            modelBuilder.Entity<Data.Models.State>().HasData(new Data.Models.State()
             {
                 Id = 2,
                 Name = "Pasif"
@@ -55,7 +55,7 @@ namespace ECommerce
         public DbSet<User> Users { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Models.State> States { get; set; }
+        public DbSet<Data.Models.State> States { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Contact> Contacts { get; set; }
     }

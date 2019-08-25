@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ECommerce.Models
+namespace ECommerce.Data.Models
 {
     public class Category
     {

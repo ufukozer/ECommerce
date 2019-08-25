@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using ECommerce.Models;
+using ECommerce.Data.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using PagedList;
-using PagedList.Mvc;
+
 
 
 namespace ECommerce.Controllers
@@ -16,7 +15,7 @@ namespace ECommerce.Controllers
         public IActionResult Index(int id)
         {
             Category category = new Category();
-            using (ECommerceContext eCommerce = new ECommerceContext())
+            using (Data.ECommerceContext eCommerce = new Data.ECommerceContext())
             {
                 category = eCommerce.Categories.SingleOrDefault(a => a.Id == id);
                 //select * from Categories where Id == 3

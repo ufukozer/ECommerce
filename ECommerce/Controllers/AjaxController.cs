@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using PagedList;
+using ECommerce.Data.Models;
+//using PagedList;
 using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.Controllers
@@ -47,7 +48,7 @@ namespace ECommerce.Controllers
         public void SaveProduct(string json)
         {
             DTO.ProductSaveDto productSave = Newtonsoft.Json.JsonConvert.DeserializeObject<DTO.ProductSaveDto>(json);
-            Models.Product product = new Models.Product()
+            Data.Models.Product product = new Data.Models.Product()
             {
                 Name = productSave.ProductName,
                 Description = productSave.ProductDescription,
@@ -55,24 +56,19 @@ namespace ECommerce.Controllers
                 CategoryId = productSave.CategoryId,
                 CreateDate = DateTime.UtcNow
             }; 
-            productAdapter.Insert<Models.Product>(product);
+            productAdapter.Insert<Data.Models.Product>(product);
             
         }
-        private List<Models.Product> pagedList;
-        public List<Models.Product> ProductsByCategoryId(string json)
+
+        public List<Data.Models.Product> ProductsByCategoryId(string json)
         {
 
-            List<Models.Product> result = new List<Models.Product>();
+            List<Data.Models.Product> result = new List<Data.Models.Product>();
             DTO.ProductsByCategoryId productsByCategoryId = Newtonsoft.Json.JsonConvert.DeserializeObject<DTO.ProductsByCategoryId>(json);
-            IQueryable<Models.Product> products = productAdapter.Get<Models.Product>();
+            IQueryable<Data.Models.Product> products = productAdapter.Get<Data.Models.Product>();
 
             result = products.Include(a => a.Category).Where(a => a.CategoryId == productsByCategoryId.CategoryId).ToList();
 
-            //using (ECommerceContext eCommerceContext = new ECommerceContext())
-            //{
-            //    result = eCommerceContext.Products.Where(a => a.CategoryId == productsByCategoryId.CategoryId).ToList();
-            //    PagedList<Models.Product> pagedList = new PagedList<Models.Product>(result, 1, 2);
-            //}
 
             return result;
         }
@@ -80,7 +76,7 @@ namespace ECommerce.Controllers
         {
             bool result = false;
             DTO.ProductRemoveDto productRemove = Newtonsoft.Json.JsonConvert.DeserializeObject<DTO.ProductRemoveDto>(json);
-            productAdapter.Delete<Models.Product>(productRemove.ProductId);
+            productAdapter.Delete<Data.Models.Product>(productRemove.ProductId);
 
             return result;
         }
@@ -88,7 +84,7 @@ namespace ECommerce.Controllers
         public void ContactSubmit(string json)
         {
             DTO.ContactSubmitDto contactSubmit = Newtonsoft.Json.JsonConvert.DeserializeObject<DTO.ContactSubmitDto>(json);
-            IQueryable<Models.Contact> contacts = contactAdapter.Get<Models.Contact>();
+            IQueryable<Data.Models.Contact> contacts = contactAdapter.Get<Data.Models.Contact>();
 
             //using (ECommerceContext eCommerceContext = new ECommerceContext())
             //{
@@ -104,9 +100,9 @@ namespace ECommerce.Controllers
         public void ProductUpdate(string json)
         {
             DTO.ProductUpdateDto productUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<DTO.ProductUpdateDto>(json);
-            using (ECommerceContext eCommerceContext = new ECommerceContext())
+            using (Data.ECommerceContext eCommerceContext = new Data.ECommerceContext())
             {
-                Models.Product product = eCommerceContext.Products.SingleOrDefault(a => a.Id == productUpdate.ProductId);
+                Data.Models.Product product = eCommerceContext.Products.SingleOrDefault(a => a.Id == productUpdate.ProductId);
 
                 product.Description = productUpdate.ProductDescription;
                 product.Name = productUpdate.ProductName;

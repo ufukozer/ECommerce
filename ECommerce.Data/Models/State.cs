@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ECommerce.Models
+namespace ECommerce.Data.Models
 {
-    public class Address
+    public class State
     {
         public int Id { get; set; }
-        public User User { get; set; }
-        public string OpenAddress { get; set; }
+        public string Name { get; set; }
+
     }
 }

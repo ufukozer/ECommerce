@@ -1,6 +1,6 @@
 ﻿@{ 
     List<Category> categories = new List<Category>();
-    using (ECommerceContext eCommerceContext = new ECommerceContext())
+    using (ECommerce.Data.ECommerceContext eCommerceContext = new ECommerce.Data.ECommerceContext())
     {
         categories = eCommerceContext.Categories.ToList();
 
